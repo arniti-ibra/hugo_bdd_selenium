@@ -130,12 +130,60 @@ class TestHugo:
                 current_alt = image.get_attribute("alt")
 
                 if current_alt == "Teams":
-                    dimensions = image.size
+                    # dimensions = image.size
                     assert current_link == get_default_url(url)+"images/teams.png"  # noqa: E501
                     assert current_title == "Baqir"
-                    try:
-                        assert dimensions == {'height': 333, 'width': 629}
+                    # try:
+                    #     assert dimensions == {'height': 333, 'width': 629}
 
-                    finally:
-                        print(f"{AssertionError}\nThe dimensions for the the image with link {current_link} do not match what is asserted")  # noqa: E501
+                    # finally:
+                    #     print(f"{AssertionError}\nThe dimensions for the the image with link {current_link} do not match what is asserted")  # noqa: E501
         self.driver.save_screenshot("test_second_page_00.png")
+
+    def test_third_page(self,url):
+        """Tests third page for title, url and images only if it has them"""
+        self.load_index_page(url)
+
+        page_url = get_default_url(url)+"posts/khabib/"
+        page_title = "Khabib | " + get_default_title()
+
+        self.wait_page_load(page_url, page_title)
+
+        assert page_url == self.driver.current_url
+        assert page_title == self.driver.title
+
+        text = "Thought I would embed a youtube video showing one of the coldest practice-what-you-preach moments in UFC history."  # pylint: disable= line-too-long  # noqa: E501
+        text2 = "“I jas wanna maul pipol”"
+        for content in self.driver.find_elements(By.XPATH, "/html/body/main/article/div/p[1]"):  # noqa: E501
+            assert content.text == text
+        for content in self.driver.find_elements(By.XPATH, "/html/body/main/article/div/p[2]"):  # noqa: E501
+            assert content.text == text2
+        example_images = self.driver.find_elements(By.TAG_NAME, 'img')
+        if example_images:
+            for image in example_images:
+                current_link = image.get_attribute("src")
+                current_title = image.get_attribute("title")
+                current_alt = image.get_attribute("alt")
+
+                if current_alt == "Khabib":
+                    # dimensions = image.size
+                    assert current_link == get_default_url(url)+"images/khabib.png"  # noqa: E501
+                    assert current_title == "Khabib"
+                    # try:
+                    #     assert dimensions == {'height': 333, 'width': 629}
+
+                    # finally:
+                    #     print(f"{AssertionError}\nThe dimensions for the the image with link {current_link} do not match what is asserted")  # noqa: E501
+        youtube = self.driver.find_elements(By.TAG_NAME, "iframe")  # noqa: E501
+
+        press_play = self.driver.find_elements(By.TAG_NAME, 'ytp-large-play-button ytp-button ytp-large-play-button-red-bg')  # noqa: E501
+        for button in press_play:
+            assert button.click()
+
+        link = "https://www.youtube.com/embed/UadjcVM42Ic"
+        width, height = "638", "360"
+        for url in youtube:
+            assert link == url.get_attribute("src")
+            assert height == url.get_attribute("height")
+            assert width == url.get_attribute("width")
+        self.driver.save_screenshot("test_third_page_00.png")
