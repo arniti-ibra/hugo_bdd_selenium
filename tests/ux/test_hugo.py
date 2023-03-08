@@ -175,15 +175,11 @@ class TestHugo:
                     # finally:
                     #     print(f"{AssertionError}\nThe dimensions for the the image with link {current_link} do not match what is asserted")  # noqa: E501
         youtube = self.driver.find_elements(By.TAG_NAME, "iframe")  # noqa: E501
-
-        press_play = self.driver.find_elements(By.TAG_NAME, 'ytp-large-play-button ytp-button ytp-large-play-button-red-bg')  # noqa: E501
-        for button in press_play:
-            assert button.click()
-
         link = "https://www.youtube.com/embed/UadjcVM42Ic"
         width, height = "638", "360"
         for url in youtube:
             assert link == url.get_attribute("src")
             assert height == url.get_attribute("height")
             assert width == url.get_attribute("width")
+
         self.driver.save_screenshot("test_third_page_00.png")
