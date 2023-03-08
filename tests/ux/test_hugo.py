@@ -140,7 +140,7 @@ class TestHugo:
                     #     print(f"{AssertionError}\nThe dimensions for the the image with link {current_link} do not match what is asserted")  # noqa: E501
         self.driver.save_screenshot("test_second_page_00.png")
 
-    def test_third_page(self,url):
+    def test_third_page(self, url):  # pylint: disable=too-many-locals
         """Tests third page for title, url and images only if it has them"""
         self.load_index_page(url)
 
@@ -177,7 +177,7 @@ class TestHugo:
         youtube = self.driver.find_elements(By.TAG_NAME, "iframe")  # noqa: E501
         link = "https://www.youtube.com/embed/UadjcVM42Ic"
         width, height = "638", "360"
-        for url in youtube:
+        for url in youtube:  # pylint: disable=redefined-argument-from-local
             assert link == url.get_attribute("src")
             assert height == url.get_attribute("height")
             assert width == url.get_attribute("width")
