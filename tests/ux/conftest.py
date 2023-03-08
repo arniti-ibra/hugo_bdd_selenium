@@ -51,6 +51,7 @@ def driver_init(request):
     if request.param == 'edge':
         options = EdgeOptions()
         options.add_argument("--headless")
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
         options.add_argument("--log-level=3")
         driver = webdriver.Edge(options=options)
     elif request.param == 'firefox':
