@@ -17,6 +17,8 @@ from selenium.webdriver.edge.options import (
   )
 # pylint: disable=import-error
 
+def pytest_bdd_step_error(request, feature, scenario, step, step_func, step_func_args, exception):
+    print(f'Step failed: {step}')
 
 def pytest_addoption(parser):
     """Add options for Selenium"""
