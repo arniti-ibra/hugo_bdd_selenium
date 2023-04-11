@@ -2,7 +2,7 @@ public
 resources
 
 # Things I have added myself
-tests/ux/*.png
+**/**/*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
